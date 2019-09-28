@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import GpsLogger from "./gps_logger";
 import {
   Container,
   Divider,
@@ -8,6 +9,8 @@ import {
   Button,
   Message
 } from "semantic-ui-react";
+
+const logger = new GpsLogger();
 
 const App: React.FC = () => {
   const [latitude, setLatitude] = useState(0.0);
@@ -32,6 +35,8 @@ const App: React.FC = () => {
             maximumAge: 0
           }
         );
+
+        logger.start();
         setWatchID(watch);
       } else {
         setError("Geolocation is not supported.");
@@ -41,7 +46,9 @@ const App: React.FC = () => {
 
   function stopWatch(): void {
     if (watchID) {
+      logger.stop();
       navigator.geolocation.clearWatch(watchID);
+
       setWatchID(undefined);
       setLatitude(0.0);
       setLongitude(0.0);
@@ -51,6 +58,7 @@ const App: React.FC = () => {
   function setCurrentPosition(position: Position) {
     setLatitude(position.coords.latitude);
     setLongitude(position.coords.longitude);
+    logger.record(position);
   }
 
   function positionError(error: PositionError) {
