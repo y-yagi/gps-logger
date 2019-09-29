@@ -1,16 +1,69 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import GpsLogger from "./gps_logger";
+import { GpsLog } from "./db";
 import {
   Container,
   Divider,
   Icon,
   Header,
   Button,
+  Table,
   Message
 } from "semantic-ui-react";
 
 const logger = new GpsLogger();
+
+const History: React.FC = () => {
+  const [loaded, setLoaded] = useState(false);
+  const [histories, setHistories] = useState<GpsLog[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setHistories(await logger.histories());
+      setLoaded(true);
+    })();
+  }, [loaded]);
+
+  function period(history: GpsLog): string {
+    if (history.startedAt && history.stoppedAt) {
+      return `${history.startedAt.toString()} ~ ${history.stoppedAt.toString()}`;
+    } else {
+      return "";
+    }
+  }
+
+  return (
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>id</Table.HeaderCell>
+          <Table.HeaderCell>period</Table.HeaderCell>
+          <Table.HeaderCell>action</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {Object.keys(histories).map(key => {
+          var history = histories[Number(key)];
+          return (
+            <Table.Row key={key}>
+              <Table.Cell width={2}>{history.id}</Table.Cell>
+              <Table.Cell>{period(history)}</Table.Cell>
+              <Table.Cell width={3}>
+                <Button color="blue" size="small" compact>
+                  Download
+                </Button>
+                <Button color="red" size="small" compact>
+                  Destroy
+                </Button>
+              </Table.Cell>
+            </Table.Row>
+          );
+        })}
+      </Table.Body>
+    </Table>
+  );
+};
 
 const App: React.FC = () => {
   const [latitude, setLatitude] = useState(0.0);
@@ -19,6 +72,7 @@ const App: React.FC = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {}, [latitude, longitude, error]);
+  logger.histories();
 
   function startWatch(): void {
     if (!watchID) {
@@ -93,7 +147,7 @@ const App: React.FC = () => {
 
   function errorMessage() {
     if (error !== "") {
-      return (<Message error={true}>Error: {error}</Message>);
+      return <Message error={true}>Error: {error}</Message>;
     } else {
       return "";
     }
@@ -112,6 +166,7 @@ const App: React.FC = () => {
       </Message>
       {errorMessage()}
       <Divider hidden section />
+      <History />
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import GpsLoggerDatabase from "./db";
+import { GpsLoggerDatabase } from "./db";
 
 class GpsLogger {
   public logs: Array<any>
@@ -22,12 +22,16 @@ class GpsLogger {
   public stop() {
     this.stoppedAt = new Date();
     this.db.transaction('rw', this.db.gpslogs, async() => {
-      this.db.gpslogs.add({started_at: this.startedAt, stopped_at: this.stoppedAt, logs: this.logs});
+      this.db.gpslogs.add({startedAt: this.startedAt, stoppedAt: this.stoppedAt, logs: this.logs});
     });
   }
 
   public record(position: Position) {
     this.logs.push({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+  }
+
+  public histories() {
+    return this.db.gpslogs.orderBy("id").toArray();
   }
 }
 

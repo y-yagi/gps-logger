@@ -1,22 +1,20 @@
 import Dexie from 'dexie';
 
-interface GpsLog {
+export interface GpsLog {
   id?: number;
-  started_at?: Date;
-  stopped_at?: Date;
+  startedAt?: Date;
+  stoppedAt?: Date;
   logs?: Array<any>;
 }
 
-class GpsLoggerDatabase extends Dexie {
+export class GpsLoggerDatabase extends Dexie {
   public gpslogs: Dexie.Table<GpsLog, number>;
 
   public constructor() {
     super("GpsLoggerDatabase");
     this.version(1).stores({
-      gpslogs: "++id,started_at,stopped_at,log"
+      gpslogs: "++id,startedAt,stoppedAt,log"
     });
     this.gpslogs = this.table("gpslogs");
   }
 }
-
-export default GpsLoggerDatabase;
