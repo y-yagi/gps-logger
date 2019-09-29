@@ -91,6 +91,14 @@ const App: React.FC = () => {
     }
   }
 
+  function errorMessage() {
+    if (error !== "") {
+      return (<Message error={true}>Error: {error}</Message>);
+    } else {
+      return "";
+    }
+  }
+
   return (
     <Container className="main-container">
       <Header as="h2" icon textAlign="center" color="blue">
@@ -102,7 +110,8 @@ const App: React.FC = () => {
       <Message>
         latitude: {latitude}, longitude: {longitude}
       </Message>
-      <Message error={true}>Error: {error}</Message>
+      {errorMessage()}
+      <Divider hidden section />
     </Container>
   );
 };
