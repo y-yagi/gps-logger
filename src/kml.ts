@@ -1,7 +1,18 @@
-// generateKmlFile("test", "139.526305,35.695418,0", "139.488012,35.655025,0", "139.526305,35.695418,0\n139.526339,35.695272,0")
-function generateKmlFile(name, startCoordinate, endCoordinate, coordinates) {
-  return `
-  <?xml version="1.0" encoding="UTF-8"?>
+import { GpsLog } from "./db";
+
+function generateKmlFile(gpsLog: GpsLog): string {
+  if (!gpsLog.logs) {
+    return "";
+  }
+
+  const name = "GPS Logger";
+  const lastIndex = gpsLog.logs.length - 1;
+  const startCoordinate = `${gpsLog.logs[0].longitude},${gpsLog.logs[0].latitude}`
+  const endCoordinate = `${gpsLog.logs[lastIndex].longitude},${gpsLog.logs[lastIndex].latitude}`
+  const reducer = (accumulator: string, cur: any) => accumulator + `${cur.longitude},${cur.latitude}\n`;
+  const coordinates = gpsLog.logs.reduce(reducer, "");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
   <kml xmlns="http://www.opengis.net/kml/2.2">
     <Document>
       <Style id="icon-123-nodesc-normal">
@@ -129,7 +140,7 @@ function generateKmlFile(name, startCoordinate, endCoordinate, coordinates) {
         <styleUrl>#line-0288D1-5000</styleUrl>
         <LineString>
           <coordinates>
-            ${coordinates}
+${coordinates}
           </coordinates>
         </LineString>
       </Placemark>

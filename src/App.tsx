@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import GpsLogger from "./gps_logger";
 import { GpsLog } from "./db";
+import generateKmlFile from "./kml";
 import {
   Container,
   Divider,
@@ -33,6 +34,12 @@ const History: React.FC = () => {
     }
   }
 
+  function handleDownload(event: any, key: number) {
+    const content = generateKmlFile(histories[key]);
+    const blob = new Blob([content], { type: "text/plain" });
+    event.target.href = window.URL.createObjectURL(blob);
+  }
+
   return (
     <Table celled>
       <Table.Header>
@@ -50,7 +57,15 @@ const History: React.FC = () => {
               <Table.Cell width={2}>{history.id}</Table.Cell>
               <Table.Cell>{period(history)}</Table.Cell>
               <Table.Cell width={3}>
-                <Button color="blue" size="small" compact>
+                <Button
+                  color="blue"
+                  as="a"
+                  size="small"
+                  href="#"
+                  download="history.kml"
+                  compact
+                  onClick={e => handleDownload(e, Number(key))}
+                >
                   Download
                 </Button>
                 <Button color="red" size="small" compact>
