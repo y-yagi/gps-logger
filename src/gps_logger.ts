@@ -33,6 +33,10 @@ class GpsLogger {
   public histories() {
     return this.db.gpslogs.orderBy("id").toArray();
   }
+
+  public delete(id: number) {
+    return this.db.gpslogs.delete(id);
+  }
 }
 
 export default GpsLogger;

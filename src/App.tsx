@@ -40,6 +40,17 @@ const History: React.FC = () => {
     event.target.href = window.URL.createObjectURL(blob);
   }
 
+  function handleDestroy(id: number | undefined) {
+    if (!id) {
+      return;
+    }
+
+    (async () => {
+      await logger.delete(id);
+      setLoaded(false);
+    })();
+  }
+
   return (
     <Table celled>
       <Table.Header>
@@ -68,7 +79,12 @@ const History: React.FC = () => {
                 >
                   Download
                 </Button>
-                <Button color="red" size="small" compact>
+                <Button
+                  color="red"
+                  size="small"
+                  compact
+                  onClick={() => handleDestroy(history.id)}
+                >
                   Destroy
                 </Button>
               </Table.Cell>
