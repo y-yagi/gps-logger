@@ -16,15 +16,15 @@ import {
 const logger = new GpsLogger();
 
 const History: React.FC = () => {
-  const [loaded, setLoaded] = useState(false);
+  const [isNeedLoad, setIsNeedLoad] = useState(true);
   const [histories, setHistories] = useState<GpsLog[]>([]);
 
   useEffect(() => {
     (async () => {
       setHistories(await logger.histories());
-      setLoaded(true);
+      setIsNeedLoad(false);
     })();
-  }, [loaded]);
+  }, [isNeedLoad]);
 
   function period(history: GpsLog): string {
     if (history.startedAt && history.stoppedAt) {
@@ -47,7 +47,7 @@ const History: React.FC = () => {
 
     (async () => {
       await logger.delete(id);
-      setLoaded(false);
+      setIsNeedLoad(true);
     })();
   }
 
