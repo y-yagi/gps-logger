@@ -1,15 +1,15 @@
 import { GpsLoggerDatabase } from "./db";
 
 class GpsLogger {
-  public logs: Array<any>
-  public startedAt: Date | undefined
-  public stoppedAt: Date | undefined
-  private db: GpsLoggerDatabase
+  public logs: Array<any>;
+  public startedAt: Date | undefined;
+  public stoppedAt: Date | undefined;
+  private db: GpsLoggerDatabase;
 
   public constructor() {
     this.logs = [];
-    this.startedAt= undefined;
-    this.stoppedAt= undefined;
+    this.startedAt = undefined;
+    this.stoppedAt = undefined;
     this.db = new GpsLoggerDatabase();
   }
 
@@ -21,13 +21,20 @@ class GpsLogger {
 
   public stop() {
     this.stoppedAt = new Date();
-    this.db.transaction('rw', this.db.gpslogs, async() => {
-      this.db.gpslogs.add({startedAt: this.startedAt, stoppedAt: this.stoppedAt, logs: this.logs});
+    this.db.transaction("rw", this.db.gpslogs, async () => {
+      this.db.gpslogs.add({
+        startedAt: this.startedAt,
+        stoppedAt: this.stoppedAt,
+        logs: this.logs
+      });
     });
   }
 
   public record(position: Position) {
-    this.logs.push({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+    this.logs.push({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    });
   }
 
   public histories() {

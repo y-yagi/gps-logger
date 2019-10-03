@@ -7,9 +7,10 @@ function generateKmlFile(gpsLog: GpsLog): string {
 
   const name = "GPS Logger";
   const lastIndex = gpsLog.logs.length - 1;
-  const startCoordinate = `${gpsLog.logs[0].longitude},${gpsLog.logs[0].latitude}`
-  const endCoordinate = `${gpsLog.logs[lastIndex].longitude},${gpsLog.logs[lastIndex].latitude}`
-  const reducer = (accumulator: string, cur: any) => accumulator + `${cur.longitude},${cur.latitude}\n`;
+  const startCoordinate = `${gpsLog.logs[0].longitude},${gpsLog.logs[0].latitude}`;
+  const endCoordinate = `${gpsLog.logs[lastIndex].longitude},${gpsLog.logs[lastIndex].latitude}`;
+  const reducer = (accumulator: string, cur: any) =>
+    accumulator + `${cur.longitude},${cur.latitude}\n`;
   const coordinates = gpsLog.logs.reduce(reducer, "");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
