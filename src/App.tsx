@@ -15,7 +15,11 @@ import {
 
 const logger = new GpsLogger();
 
-const History: React.FC = () => {
+interface HistoryProps {
+  counter: number;
+}
+
+const History: React.FC<HistoryProps> = props => {
   const [isNeedLoad, setIsNeedLoad] = useState(true);
   const [histories, setHistories] = useState<GpsLog[]>([]);
 
@@ -24,7 +28,7 @@ const History: React.FC = () => {
       setHistories(await logger.histories());
       setIsNeedLoad(false);
     })();
-  }, [isNeedLoad]);
+  }, [isNeedLoad, props.counter]);
 
   function period(history: GpsLog): string {
     if (history.startedAt && history.stoppedAt) {
@@ -101,6 +105,7 @@ const App: React.FC = () => {
   const [longitude, setLongitude] = useState(0.0);
   const [watchID, setWatchID] = useState<number | undefined>(undefined);
   const [error, setError] = useState("");
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {}, [latitude, longitude, error]);
   logger.histories();
@@ -137,6 +142,7 @@ const App: React.FC = () => {
       setWatchID(undefined);
       setLatitude(0.0);
       setLongitude(0.0);
+      setCounter(counter + 1);
     }
   }
 
@@ -197,7 +203,7 @@ const App: React.FC = () => {
       </Message>
       {errorMessage()}
       <Divider hidden section />
-      <History />
+      <History counter={counter} />
     </Container>
   );
 };
