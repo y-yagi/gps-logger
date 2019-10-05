@@ -38,13 +38,13 @@ const History: React.FC<HistoryProps> = props => {
     }
   }
 
-  function handleDownload(event: any, key: number) {
+  function handleDownload(event: any, key: number): void {
     const content = generateKmlFile(histories[key]);
     const blob = new Blob([content], { type: "text/plain" });
     event.target.href = window.URL.createObjectURL(blob);
   }
 
-  function handleDestroy(id: number | undefined) {
+  function handleDestroy(id: number | undefined): void {
     if (!id) {
       return;
     }
@@ -146,13 +146,13 @@ const App: React.FC = () => {
     }
   }
 
-  function setCurrentPosition(position: Position) {
+  function setCurrentPosition(position: Position): void {
     setLatitude(position.coords.latitude);
     setLongitude(position.coords.longitude);
     logger.record(position);
   }
 
-  function positionError(error: PositionError) {
+  function positionError(error: PositionError): void {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         setError("User denied the request for Geolocation.");
@@ -166,7 +166,7 @@ const App: React.FC = () => {
     }
   }
 
-  function startOrStopButtion() {
+  function startOrStopButtion(): JSX.Element {
     if (watchID) {
       return (
         <Button color="red" type="submit" onClick={() => stopWatch()}>
@@ -182,11 +182,11 @@ const App: React.FC = () => {
     }
   }
 
-  function errorMessage() {
+  function errorMessage(): JSX.Element {
     if (error !== "") {
       return <Message error={true}>Error: {error}</Message>;
     } else {
-      return "";
+      return <span />;
     }
   }
 
