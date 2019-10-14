@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import * as Sentry from '@sentry/browser';
+import * as Sentry from "@sentry/browser";
 import "./index.css";
 import "semantic-ui-css/semantic.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-Sentry.init({dsn: "https://7016974a134b4facafb2d30ec8e12491@sentry.io/1779538"});
+Sentry.init({
+  dsn: "https://7016974a134b4facafb2d30ec8e12491@sentry.io/1779538"
+});
 
 ReactDOM.render(<App />, document.getElementById("root"));
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { captureMessage } from '@sentry/browser';
+import { captureMessage } from "@sentry/browser";
 import "./App.css";
 import GpsLogger from "./gps_logger";
 import { GpsLog } from "./db";
@@ -160,11 +160,11 @@ const App: React.FC = () => {
         break;
       case error.POSITION_UNAVAILABLE:
         setError(`Location information is unavailable.`);
-        captureMessage(`Position unavailable. detail: ${error.message}`)
+        captureMessage(`Position unavailable. detail: ${error.message}`);
         break;
       case error.TIMEOUT:
         setError("The request to get user location timed out.");
-        captureMessage(`Timeout. detail: ${error.message}`)
+        captureMessage(`Timeout. detail: ${error.message}`);
         break;
     }
   }
