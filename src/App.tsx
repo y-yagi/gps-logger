@@ -39,6 +39,14 @@ const History: React.FC<HistoryProps> = props => {
     }
   }
 
+  function filename(history: GpsLog): string {
+    if (history.startedAt) {
+      return `${history.startedAt.toLocaleString()}.kml`;
+    } else {
+      return "history.kml";
+    }
+  }
+
   function handleDownload(event: any, key: number): void {
     const content = generateKmlFile(histories[key]);
     const blob = new Blob([content], { type: "text/plain" });
@@ -78,7 +86,7 @@ const History: React.FC<HistoryProps> = props => {
                   as="a"
                   size="small"
                   href="#"
-                  download="history.kml"
+                  download={filename(history)}
                   compact
                   onClick={e => handleDownload(e, Number(key))}
                 >
@@ -202,7 +210,8 @@ const App: React.FC = () => {
       <Divider hidden section />
       {startOrStopButtion()}
       <Message>
-        latitude: {latitude}, longitude: {longitude}
+        latitude: {latitude}, longitude: {longitude}, log count:{" "}
+        {logger.logs.length}
       </Message>
       {errorMessage()}
       <Divider hidden section />
