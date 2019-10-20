@@ -210,7 +210,8 @@ const App: React.FC = () => {
       <Divider hidden section />
       {startOrStopButtion()}
       <Message>
-        latitude: {latitude}, longitude: {longitude}
+        latitude: {latitude}, longitude: {longitude}, log count:{" "}
+        {logger.logs.length}
       </Message>
       {errorMessage()}
       <Divider hidden section />
