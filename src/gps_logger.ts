@@ -31,10 +31,25 @@ class GpsLogger {
   }
 
   public record(position: Position): void {
-    this.logs.push({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    });
+    if (this.logs.length === 0) {
+      this.logs.push({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+
+      return;
+    }
+
+    var last = this.logs[this.logs.length - 1];
+    if (
+      last.latitude !== position.coords.latitude ||
+      last.longitude !== position.coords.longitude
+    ) {
+      this.logs.push({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    }
   }
 
   public histories(): Promise<GpsLog[]> {
