@@ -11,7 +11,7 @@ import {
   Header,
   Button,
   Table,
-  Message
+  Message,
 } from "semantic-ui-react";
 
 const logger = new GpsLogger();
@@ -20,7 +20,7 @@ interface HistoryProps {
   counter: number;
 }
 
-const History: React.FC<HistoryProps> = props => {
+const History: React.FC<HistoryProps> = (props) => {
   const [isNeedLoad, setIsNeedLoad] = useState(true);
   const [histories, setHistories] = useState<GpsLog[]>([]);
 
@@ -74,7 +74,7 @@ const History: React.FC<HistoryProps> = props => {
         </Table.Row>
       </Table.Header>
       <Table.Body>
-        {Object.keys(histories).map(key => {
+        {Object.keys(histories).map((key) => {
           var history = histories[Number(key)];
           return (
             <Table.Row key={key}>
@@ -88,7 +88,7 @@ const History: React.FC<HistoryProps> = props => {
                   href="#"
                   download={filename(history)}
                   compact
-                  onClick={e => handleDownload(e, Number(key))}
+                  onClick={(e) => handleDownload(e, Number(key))}
                 >
                   Download
                 </Button>
@@ -131,7 +131,7 @@ const App: React.FC = () => {
           {
             enableHighAccuracy: false,
             timeout: 15000,
-            maximumAge: 0
+            maximumAge: 0,
           }
         );
 

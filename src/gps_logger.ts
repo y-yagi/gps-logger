@@ -25,7 +25,7 @@ class GpsLogger {
       this.db.gpslogs.add({
         startedAt: this.startedAt,
         stoppedAt: this.stoppedAt,
-        logs: this.logs
+        logs: this.logs,
       });
     });
   }
@@ -34,7 +34,7 @@ class GpsLogger {
     if (this.logs.length === 0) {
       this.logs.push({
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
       });
 
       return;
@@ -47,7 +47,7 @@ class GpsLogger {
     ) {
       this.logs.push({
         latitude: position.coords.latitude,
-        longitude: position.coords.longitude
+        longitude: position.coords.longitude,
       });
     }
   }

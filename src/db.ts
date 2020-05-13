@@ -13,7 +13,7 @@ export class GpsLoggerDatabase extends Dexie {
   public constructor() {
     super("GpsLoggerDatabase");
     this.version(1).stores({
-      gpslogs: "++id,startedAt,stoppedAt,log"
+      gpslogs: "++id,startedAt,stoppedAt,log",
     });
     this.gpslogs = this.table("gpslogs");
   }
