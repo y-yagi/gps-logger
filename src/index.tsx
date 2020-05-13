@@ -7,7 +7,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 Sentry.init({
-  dsn: "https://7016974a134b4facafb2d30ec8e12491@sentry.io/1779538"
+  dsn: "https://7016974a134b4facafb2d30ec8e12491@sentry.io/1779538",
 });
 
 ReactDOM.render(<App />, document.getElementById("root"));
